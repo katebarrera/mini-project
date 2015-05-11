@@ -1,0 +1,28 @@
+- if user_signed_in?
+  %p
+    Hi #{current_user.email}
+    =link_to "Sign out", destroy_user_session_path, :method => :delete
+    =link_to "Edit", edit_user_registration_path
+  %p
+    %h1 New Blog
+    =form_for @blog do |f|
+      =f.label :title 
+      %br/
+      =f.text_field :title
+      %br/
+
+      =f.label :caption 
+      %br/
+      =f.text_field :caption
+      %br/
+
+      =f.label :description 
+      %br/
+      =f.text_field :description
+
+      %br/
+      =f.submit "Create"
+- else
+  %p
+    You are not signed in.
+    =link_to "Sign in", new_user_session_path

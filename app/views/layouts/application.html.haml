@@ -9,4 +9,12 @@
   %body
     %p.notice= notice
     %p.alert= alert
-    = yield
+
+    - if user_signed_in?
+      Hi #{current_user.email}
+      =link_to "Sign out", destroy_user_session_path, :method => :delete
+      =link_to "Edit", edit_user_registration_path
+      %br/
+      = yield
+    - else
+      %p live Blog list is empty.

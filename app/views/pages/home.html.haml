@@ -1,8 +1,3 @@
-= render 'pages/header'
-- if user_signed_in?
-  %br/
-  = button_to 'Create Blog', new_blog_path, :method => "get"
-
 - unless @blogs.empty?
   %h2 Live Blogs
 
@@ -24,5 +19,3 @@
             %td= blog.user_id
   %br/        
   = will_paginate @blogs
-- else
-  %p live Blog list is empty.

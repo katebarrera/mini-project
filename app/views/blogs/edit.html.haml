@@ -1,10 +1,4 @@
-- if user_signed_in?
-  %p
-    Hi #{current_user.email}
-    =link_to "Sign out", destroy_user_session_path, :method => :delete
-    =link_to "Edit", edit_user_registration_path
-
-    -if @blog.is_draft = true
+-if @blog.is_draft = true
       %p
         %h1 Edit Blog
         =form_for @blog do |f|
@@ -26,7 +20,3 @@
           =f.submit "Edit"
     - else
       %p Blog is not draft
-- else
-  %p
-    You are not signed in.
-    =link_to "Sign in", new_user_session_path

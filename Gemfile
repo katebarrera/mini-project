@@ -28,6 +28,9 @@ gem 'devise', '3.4.1'
 gem 'haml-rails', '0.9'
 gem 'will_paginate', '3.0.7'
 gem 'carrierwave', '0.8.0'
+gem 'mini_magick', '3.7.0'
+gem 'fog'
+gem 'rmagick', '2.13.2'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

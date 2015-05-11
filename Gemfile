@@ -25,6 +25,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 #Added a postgres gem for database use
 gem 'pg', '0.18.1'
 gem 'devise', '3.4.1'
+gem 'haml-rails', '0.9'
+gem 'will_paginate', '3.0.7'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

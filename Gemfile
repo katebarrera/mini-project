@@ -27,6 +27,7 @@ gem 'pg', '0.18.1'
 gem 'devise', '3.4.1'
 gem 'haml-rails', '0.9'
 gem 'will_paginate', '3.0.7'
+gem 'carrierwave', '0.8.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

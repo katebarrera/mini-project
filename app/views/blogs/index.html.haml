@@ -1,0 +1,17 @@
+%h1 Blogs
+%table
+  %thead
+    %tr
+      %th Title
+      %th Caption
+      %th Description
+      %th{:colspan => 3}
+  %tbody
+    - @blog.each do |blog|
+      %tr
+        %td= blog.title
+        %td= blog.caption
+        %td= blog.description
+%br/
+
+= link_to "New Blog", new_blog_path

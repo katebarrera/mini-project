@@ -1,1 +1,28 @@
 = render 'pages/header'
+- if user_signed_in?
+  %br/
+  = button_to 'Create Blog', new_blog_path, :method => "get"
+
+- unless @blogs.empty?
+  %h2 Live Blogs
+
+  %table
+    %thead
+      %tr
+        %th Title
+        %th Caption
+        %th Description
+        %th User
+        %th{:colspan => "4"}
+    %tbody
+      - @blogs.each do |blog|
+        - unless blog.is_draft? and blog.is_archived?
+          %tr
+            %td= blog.title
+            %td= blog.caption
+            %td= blog.description
+            %td= blog.user_id
+  %br/        
+  = will_paginate @blogs
+- else
+  %p live Blog list is empty.

@@ -3,7 +3,7 @@ class BlogsController < ApplicationController
   before_filter :authenticate_user!, except: [:show]
 
 	def index
-		@blog = current_user.blogs.order("created_at").paginate(page: params[:page], per_page: 5)
+		@blogs = current_user.blogs.order("created_at desc").paginate(page: params[:page], per_page: 5)
 	end
 
 	def show

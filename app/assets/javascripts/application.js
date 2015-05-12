@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+//= require select2
 
 $(document).ready(function(){
  $(".archive_button").click(function(){
@@ -64,4 +65,5 @@ $(document).ready(function(){
      }
    });
  });
+  $(".js-example-basic-multiple").select2();
 });

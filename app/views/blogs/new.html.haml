@@ -18,13 +18,10 @@
 
     =f.label :category
     %br/
-    %select.js-example-basic-multiple{:multiple => "multiple"}
-      %option{:value => "ART"} Art
-      %option{:value => "PH"} Photography
-      %option{:value => "MOV"} Movie
-      %option{:value => "GME"} Game
-      %option{:value => "FSH"} Fashion
-      %option{:value => "TV"} Television
+    %select.js-example-basic-multiple{:multiple => "multiple", :name => "categories[]", "data-placeholder" => "Choose category"}
+      - @categories.each do |category|
+        %option{:value => "#{category.id}"}= category.name 
     %br/
     %br/
     =f.submit "Create"
+    =button_to "Back", blogs_path

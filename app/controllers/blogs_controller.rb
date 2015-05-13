@@ -35,19 +35,26 @@ class BlogsController < ApplicationController
 
 	def update
 		@blog = Blog.find(params[:id])
-
+		
 		@blogs_category = BlogsCategory.select("blog_id").where("blog_id = ? AND category_id NOT IN (?)", @blog.id, params[:categories])
 		
 		if @blog.update(blog_params)
-			if @blogs_category.present?
-				@blogs_category.delete_all
-			end
-			params[:categories].each do |category|
-				@blogs_category = BlogsCategory.create({blog_id: @blog.id, category_id: category.to_i})
+			if params[:categories].present?
+  			
+  			if @blogs_category.present?
+    			@blogs_category.delete_all
+  			end
+
+				params[:categories].each do |category|
+				  @blogs_category = BlogsCategory.select("blog_id").where("blog_id = ? AND category_id IN (?)", @blog.id, category.to_i)
+				  unless @blogs_category.present?
+				    @blogs_category = BlogsCategory.create({ blog_id: @blog.id, category_id: category.to_i })
+				  end
+				end
+			else
+  			@blogs_category = BlogsCategory.select("blog_id").where("blog_id = ?", @blog.id).delete_all
 			end
 			redirect_to blogs_path
-		else
-			redirect_to :back
 		end
 	end
 

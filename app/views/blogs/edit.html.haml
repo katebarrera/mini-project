@@ -1,22 +1,32 @@
 -if @blog.is_draft = true
-      %p
-        %h1 Edit Blog
-        =form_for @blog do |f|
-          =f.label :title 
-          %br/
-          =f.text_field :title
-          %br/
+  %p
+    %h1 Edit Blog
+    =form_for @blog do |f|
+      .hfield
+        = f.text_area :image, :id => "image_base64_holder", style: "#{'display:none'}"
 
-          =f.label :caption 
-          %br/
-          =f.text_field :caption
-          %br/
+      .picture
+        = f.file_field :image, :id => "image_upload", accept: 'image/jpeg,image/gif,image/png'
 
-          =f.label :description 
-          %br/
-          =f.text_area :description
+      .image_holder{:style => 'height:400px;width:400px;'}
+        = image_tag @blog.image_url if @blog.image?
 
-          %br/
-          =f.submit "Edit"
-    - else
-      %p Blog is not draft
+      =f.label :title 
+      %br/
+      =f.text_field :title
+      %br/
+
+      =f.label :caption 
+      %br/
+      =f.text_field :caption
+      %br/
+
+      =f.label :description 
+      %br/
+      =f.text_area :description
+
+      %br/
+      =f.submit "Edit"
+      =button_to "Back", blogs_path
+- else
+  %p Blog is not draft

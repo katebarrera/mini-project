@@ -1,19 +1,31 @@
 %p
   %h1 New Blog
-  =form_for @blog do |f|
-    =f.label :title 
-    %br/
-    =f.text_field :title
-    %br/
+  =form_for @blog, :html => {:multipart => true } do |f|
+    .hfield
+      = f.text_area :image, :id => "image_base64_holder", style: "#{'display:none'}"
 
-    =f.label :caption 
-    %br/
-    =f.text_field :caption
-    %br/
+    .picture
+      = f.file_field :image, :id => "image_upload", accept: 'image/jpeg,image/gif,image/png'
 
-    =f.label :description 
-    %br/
-    =f.text_area :description
+    .image_holder{:style => 'height:400px;width:400px;'}
+
+    .field
+      =f.label :title 
+      %br/
+      =f.text_field :title
+      %br/
+
+    .field
+      =f.label :caption 
+      %br/
+      =f.text_field :caption
+      %br/
+
+    .field
+      =f.label :description 
+      %br/
+      =f.text_area :description
 
     %br/
     =f.submit "Create"
+    =button_to "Back", blogs_path

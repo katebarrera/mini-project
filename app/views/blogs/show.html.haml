@@ -1,4 +1,8 @@
 %p
+  %strong Image:
+  = image_tag @blog.image_url if @blog.image?
+
+%p
   %strong Title:
   = @blog.title
 
@@ -9,3 +13,5 @@
 %p
   %strong Description:
   = @blog.description
+
+=button_to "Back", blogs_path

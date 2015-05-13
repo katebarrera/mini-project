@@ -8,7 +8,7 @@
       .picture
         = f.file_field :image, :id => "image_upload", accept: 'image/jpeg,image/gif,image/png'
 
-      .image_holder{:style => 'height:400px;width:400px;'}
+      .image_holder{:style => 'height:200px;width:200px;'}
         = image_tag @blog.image_url if @blog.image?
 
       =f.label :title 

@@ -36,13 +36,13 @@ class BlogsController < ApplicationController
 	def update
 		@blog = Blog.find(params[:id])
 		
-		@blogs_category = BlogsCategory.select("blog_id").where("blog_id = ? AND category_id NOT IN (?)", @blog.id, params[:categories])
+		@blogs_categories = BlogsCategory.select("blog_id").where("blog_id = ? AND category_id NOT IN (?)", @blog.id, params[:categories])
 		
 		if @blog.update(blog_params)
 			if params[:categories].present?
   			
-  			if @blogs_category.present?
-    			@blogs_category.delete_all
+  			if @blogs_categories.present?
+    			@blogs_categories.delete_all
   			end
 
 				params[:categories].each do |category|
@@ -52,7 +52,7 @@ class BlogsController < ApplicationController
 				  end
 				end
 			else
-  			@blogs_category = BlogsCategory.select("blog_id").where("blog_id = ?", @blog.id).delete_all
+  			@blogs_categories = BlogsCategory.select("blog_id").where("blog_id = ?", @blog.id).delete_all
 			end
 			redirect_to blogs_path
 		end

@@ -13,3 +13,8 @@
  *= require_tree .
  *= require_self
  */
+#displayImage{
+  background-size: 100% auto;
+  background-position: center center;
+  background-repeat: no-repeat;
+}

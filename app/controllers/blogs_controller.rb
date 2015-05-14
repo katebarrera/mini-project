@@ -1,5 +1,10 @@
+class BlogImageString < StringIO
+    attr_accessor :original_filename, :content_type
+ end
+
 class BlogsController < ApplicationController
   #before_action :logged_in_user, only: [:create]
+  require 'base64'
   before_filter :authenticate_user!, except: [:show]
 
 	def index
@@ -15,13 +20,19 @@ class BlogsController < ApplicationController
 	end
 
 	def create
+		image = params[:image]
 		@blog = current_user.blogs.build(blog_params)
 
 		if @blog.save
-			flash[:success] = "Blog created!"
+			if image.present?
+				image64 = image.split(",").second
+				io = BlogImageString.new(Base64.decode64(image64))
+				io.original_filename = "foobar.png"
+				io.content_type = "image/png"
+				@blog.image = io
+				@blog.save
+			end
 			redirect_to blogs_path
-		else
-			render 'pages/home'
 		end
 	end
 
@@ -43,6 +54,6 @@ class BlogsController < ApplicationController
 	private
 
 		def blog_params
-			params.require(:blog).permit(:title, :caption, :description, :image)
+			params.require(:blog).permit(:title, :caption, :description)
 		end
 end

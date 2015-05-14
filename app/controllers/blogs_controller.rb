@@ -17,6 +17,7 @@ class BlogsController < ApplicationController
 
 	def edit
 		@blog = Blog.find(params[:id])
+		@categories = Category.all
 	end
 
 	def create
@@ -32,18 +33,26 @@ class BlogsController < ApplicationController
 				@blog.image = io
 				@blog.save
 			end
+			params[:categories].each do |category|
+				@blog_category = BlogsCategory.create({blog_id: @blog.id, category_id: category.to_i})
+			end
 			redirect_to blogs_path
+		else
+			redirect_to :back
 		end
 	end
 
 	def new
 		@blog = current_user.blogs.build
+		@categories = Category.all
 	end
 
 	def update
 		image = params[:image]
 		@blog = Blog.find(params[:id])
-
+		
+		@blogs_categories = BlogsCategory.select("blog_id").where("blog_id = ? AND category_id NOT IN (?)", @blog.id, params[:categories])
+		
 		if @blog.update(blog_params)
 			if params[:image].present?
 				image64 = image.split(",").second
@@ -53,14 +62,29 @@ class BlogsController < ApplicationController
 				@blog.image = io
 				@blog.update(blog_params)
 			end
+
+			if params[:categories].present?
+  			
+  			if @blogs_categories.present?
+    			@blogs_categories.delete_all
+  			end
+
+				params[:categories].each do |category|
+				  @blog_category = BlogsCategory.select("blog_id").where("blog_id = ? AND category_id IN (?)", @blog.id, category.to_i)
+				  unless @blog_category.present?
+				    @blog_category = BlogsCategory.create({ blog_id: @blog.id, category_id: category.to_i })
+				  end
+				end
+			else
+  			@blogs_categories = BlogsCategory.select("blog_id").where("blog_id = ?", @blog.id).delete_all
+			end
 			redirect_to blogs_path
 		end
 	end
 
-
 	private
 
 		def blog_params
-			params.require(:blog).permit(:title, :caption, :description)
+			params.require(:blog).permit(:title, :caption, :description, category_id:[])
 		end
 end

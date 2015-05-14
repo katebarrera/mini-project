@@ -14,77 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-
-// $(document).ready(function(){
-//  $(".archive_button").click(function(){
-//    var blogID = $(this).attr("id");
-//    $.ajax({      
-//      url:"/ajax/blogs/" + blogID + "/archive",
-//      type: "PUT",
-//      dataType:'json',
-//      beforeSend: function(xhr) {
-//        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
-       
-//      },
-//      error:function(data){ 
-         
-//      },
-//      success:function(data){
-      
-//       console.log(data)
-//        if(data.is_archived == true){
-//          $("#"+blogID).html("Archived");
-//        }
-//        else{
-//          $("#"+blogID).html("Archive");
-//        }
-//      }
-//    });
-//  });
-//   $(".live_button").click(function(){
-//    var blogID = $(this).attr("id");
-//    $.ajax({      
-//      url:"/ajax/blogs/" + blogID + "/live",
-//      type: "PUT",
-//      dataType:'json',
-//      beforeSend: function(xhr) {
-//        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
-       
-//      },
-//      error:function(data){ 
-         
-//      },
-//      success:function(data){
-//        if(data.is_draft == true){
-//          $("#"+blogID).html("Live");
-//        }
-//        else{
-//          $("#"+blogID).html("Archive");
-//        }
-//      }
-//    });
-//  });
-//   $("#buttonUploader").bind("click", function () {
-//   $("#imageUploader").trigger("click");
-// });
-//   $('#imageUploader').change(function(data) {
-//    setTimeout(function(){
-//      var fileUpload = new FileReader;
-//      var file = document.getElementById("imageUploader").files[0];
-//      var image = new Image();
-//      setTimeout(function(){
-//        fileUpload.onload = function (e){
-//        return function (e){
-//          image.src = e.target.result
-//          $("#base64Image").val(e.target.result);
-//          $("#displayImage").css("background-image", "url(" + image.src + ")");
-//        }
-//      }(file);
-//      fileUpload.readAsDataURL(file);
-//      });
-//    });
-//   });
-// });
+//= require select2
 
 $(document).ready(function(){
 
@@ -136,7 +66,7 @@ $(document).ready(function(){
   });
 
   //select2
-  //$(".js-example-basic-multiple").select2();
+  $(".js-example-basic-multiple").select2();
 
   $("#buttonUploader").bind("click", function () {
     $("#imageUploader").trigger("click");
@@ -160,5 +90,4 @@ $(document).ready(function(){
     });
   });
 });
-
 

@@ -13,7 +13,7 @@
       %br/
       =f.text_field :title
       %br/
-
+      
     .field
       =f.label :caption 
       %br/
@@ -25,5 +25,12 @@
       %br/
       =f.text_area :description
 
+    =f.label :category
+    %br/
+    %select.js-example-basic-multiple{:multiple => "multiple", :name => "categories[]", "data-placeholder" => "Choose category"}
+      - @categories.each do |category|
+        %option{:value => "#{category.id}"}= category.name 
+    %br/
     %br/
     =f.submit "Create"
+    =button_to "Back", blogs_path

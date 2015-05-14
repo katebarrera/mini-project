@@ -1,29 +1,33 @@
--if @blog.is_draft = true
-  %p
-    %h1 Edit Blog
-    %img{id: :displayImage, style: "width:200px; height:200px;background-image:url(#{@blog.image_url})"}
-    %input{id: "imageUploader", type: :file, style: "display: none"}
-    %button{id: "buttonUploader"} Upload Image
+%h1 Edit Blog
+%img{id: :displayImage, style: "width:200px; height:200px;background-image:url(#{@blog.image_url})"}
+%input{id: "imageUploader", type: :file, style: "display: none"}
+%button{id: "buttonUploader"} Upload Image
+=form_for @blog do |f|
+  %textarea{name: "image", id: "base64Image", style: "display:none"}
+  =f.label :title 
+  %br/
+  =f.text_field :title
+  %br/
 
-    =form_for @blog do |f|
+  =f.label :caption 
+  %br/
+  =f.text_field :caption
+  %br/
 
-      %textarea{name: "image", id: "base64Image", style: "display:none"}
+  =f.label :description 
+  %br/
+  =f.text_area :description
+  %br/
 
-      =f.label :title 
-      %br/
-      =f.text_field :title
-      %br/
-
-      =f.label :caption 
-      %br/
-      =f.text_field :caption
-      %br/
-
-      =f.label :description 
-      %br/
-      =f.text_area :description
-
-      %br/
-      =f.submit "Edit"
-- else
-  %p Blog is not draft
+  =f.label :category
+  %br/
+  %select.js-example-basic-multiple{:multiple => "multiple", :name => "categories[]", "data-placeholder" => "Choose category"}
+    - @categories.each do |category|
+      -if @blog.categories.include?(category)
+        %option{:value => "#{category.id}", :selected => "selected"}= category.name 
+      -else
+        %option{:value => "#{category.id}"}= category.name 
+  %br/
+  %br/
+  =f.submit "Edit"
+  =button_to "Back", blogs_path

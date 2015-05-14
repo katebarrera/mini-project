@@ -22,7 +22,7 @@
 
         - if blog.is_draft == true
           %td
-            = button_to 'Edit', edit_blog_path(blog), :method => "get"
+            = button_to 'Edit', edit_blog_path(blog), :method => "get", :id => "edit#{blog.id}"
           %td
             %button{id: "#{blog.id}", :class => "live_button"} Live
         - else

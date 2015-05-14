@@ -1,5 +1,10 @@
+class BlogImageString < StringIO
+    attr_accessor :original_filename, :content_type
+ end
+
 class BlogsController < ApplicationController
   #before_action :logged_in_user, only: [:create]
+  require 'base64'
   before_filter :authenticate_user!, except: [:show]
 
 	def index
@@ -16,9 +21,18 @@ class BlogsController < ApplicationController
 	end
 
 	def create
+		image = params[:image]
 		@blog = current_user.blogs.build(blog_params)
 
 		if @blog.save
+			if image.present?
+				image64 = image.split(",").second
+				io = BlogImageString.new(Base64.decode64(image64))
+				io.original_filename = "foobar.png"
+				io.content_type = "image/png"
+				@blog.image = io
+				@blog.save
+			end
 			params[:categories].each do |category|
 				@blog_category = BlogsCategory.create({blog_id: @blog.id, category_id: category.to_i})
 			end
@@ -34,11 +48,21 @@ class BlogsController < ApplicationController
 	end
 
 	def update
+		image = params[:image]
 		@blog = Blog.find(params[:id])
 		
 		@blogs_categories = BlogsCategory.select("blog_id").where("blog_id = ? AND category_id NOT IN (?)", @blog.id, params[:categories])
 		
 		if @blog.update(blog_params)
+			if params[:image].present?
+				image64 = image.split(",").second
+				io = BlogImageString.new(Base64.decode64(image64))
+				io.original_filename = "foobar.png"
+				io.content_type = "image/png"
+				@blog.image = io
+				@blog.update(blog_params)
+			end
+
 			if params[:categories].present?
   			
   			if @blogs_categories.present?

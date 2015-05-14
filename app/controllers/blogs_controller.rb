@@ -12,37 +12,55 @@ class BlogsController < ApplicationController
 
 	def edit
 		@blog = Blog.find(params[:id])
+		@categories = Category.all
 	end
 
 	def create
-		@blog = Blog.new(blog_params)
+		@blog = current_user.blogs.build(blog_params)
 
 		if @blog.save
-			flash[:success] = "Blog created!"
+			params[:categories].each do |category|
+				@blog_category = BlogsCategory.create({blog_id: @blog.id, category_id: category.to_i})
+			end
 			redirect_to blogs_path
 		else
-			render 'pages/home'
+			redirect_to :back
 		end
 	end
 
 	def new
 		@blog = current_user.blogs.build
+		@categories = Category.all
 	end
 
 	def update
 		@blog = Blog.find(params[:id])
-
+		
+		@blogs_categories = BlogsCategory.select("blog_id").where("blog_id = ? AND category_id NOT IN (?)", @blog.id, params[:categories])
+		
 		if @blog.update(blog_params)
+			if params[:categories].present?
+  			
+  			if @blogs_categories.present?
+    			@blogs_categories.delete_all
+  			end
+
+				params[:categories].each do |category|
+				  @blog_category = BlogsCategory.select("blog_id").where("blog_id = ? AND category_id IN (?)", @blog.id, category.to_i)
+				  unless @blog_category.present?
+				    @blog_category = BlogsCategory.create({ blog_id: @blog.id, category_id: category.to_i })
+				  end
+				end
+			else
+  			@blogs_categories = BlogsCategory.select("blog_id").where("blog_id = ?", @blog.id).delete_all
+			end
 			redirect_to blogs_path
-		else
-			render 'edit'
 		end
 	end
-
 
 	private
 
 		def blog_params
-			params.require(:blog).permit(:title, :caption, :description)
+			params.require(:blog).permit(:title, :caption, :description, category_id:[])
 		end
 end

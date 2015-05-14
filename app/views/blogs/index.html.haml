@@ -1,3 +1,4 @@
+%p
 = button_to "Create Blog", new_blog_path, :method => "get"
 %br/
 %h1 Blogs List
@@ -7,20 +8,24 @@
       %th Title
       %th Caption
       %th Description
-      %th{:colspan => 3}
+      %th Categories
+      %th{:colspan => 4}
   %tbody
     - @blogs.each do |blog|
       %tr
         %td= blog.title
         %td= blog.caption
         %td= blog.description
+        %td
+          - blog.categories.each do |cat|
+            =cat.name 
 
         - if blog.is_draft == true
           %td
-            = button_to 'Edit', edit_blog_path(blog)
+            = button_to 'Edit', edit_blog_path(blog), :method => "get"
           %td
             %button{id: "#{blog.id}", :class => "live_button"} Live
-        - unless blog.is_draft?
+        - else
           %td
             - if blog.is_archived?
               %button{id: "#{blog.id}", :class => "archive_button"} Archived

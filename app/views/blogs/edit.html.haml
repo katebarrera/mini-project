@@ -1,7 +1,7 @@
 -if @blog.is_draft = true
   %p
     %h1 Edit Blog
-    %img{id: :displayImage, style: "width:200px; height:200px;"}
+    %img{id: :displayImage, style: "width:200px; height:200px;background-image:url(#{@blog.image_url})"}
     %input{id: "imageUploader", type: :file, style: "display: none"}
     %button{id: "buttonUploader"} Upload Image
 

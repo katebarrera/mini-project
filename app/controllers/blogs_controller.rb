@@ -41,12 +41,19 @@ class BlogsController < ApplicationController
 	end
 
 	def update
+		image = params[:image]
 		@blog = Blog.find(params[:id])
 
 		if @blog.update(blog_params)
+			if params[:image].present?
+				image64 = image.split(",").second
+				io = BlogImageString.new(Base64.decode64(image64))
+				io.original_filename = "foobar.png"
+				io.content_type = "image/png"
+				@blog.image = io
+				@blog.update(blog_params)
+			end
 			redirect_to blogs_path
-		else
-			render 'edit'
 		end
 	end
 

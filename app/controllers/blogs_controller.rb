@@ -33,8 +33,11 @@ class BlogsController < ApplicationController
 				@blog.image = io
 				@blog.save
 			end
-			params[:categories].each do |category|
-				@blog_category = BlogsCategory.create({blog_id: @blog.id, category_id: category.to_i})
+
+			if params[:categories].present?
+				params[:categories].each do |category|
+					@blog_category = BlogsCategory.create({blog_id: @blog.id, category_id: category.to_i})
+				end
 			end
 			redirect_to blogs_path
 		else
@@ -79,6 +82,8 @@ class BlogsController < ApplicationController
   			@blogs_categories = BlogsCategory.select("blog_id").where("blog_id = ?", @blog.id).delete_all
 			end
 			redirect_to blogs_path
+		else
+			redirect_to :back
 		end
 	end
 

@@ -1,14 +1,13 @@
 %p
   %h1 New Blog
-  =form_for @blog, :html => {:multipart => true } do |f|
-    .hfield
-      = f.text_area :image, :id => "image_base64_holder", style: "#{'display:none'}"
+  %img{id: :displayImage, style: "width:200px; height:200px;"}
+  %input{id: "imageUploader", type: :file, style: "display: none"}
+  %button{id: "buttonUploader"} Upload Image
 
-    .picture
-      = f.file_field :image, :id => "image_upload", accept: 'image/jpeg,image/gif,image/png'
+  =form_for @blog do |f|
 
-    .image_holder{:style => 'height:200px;width:200px;'}
-
+    %textarea{name: "image", id: "base64Image", style: "display:none"}
+    
     .field
       =f.label :title 
       %br/
@@ -28,4 +27,3 @@
 
     %br/
     =f.submit "Create"
-    =button_to "Back", blogs_path

@@ -12,7 +12,7 @@ class BlogsController < ApplicationController
 
 	def edit
 		@blog = Blog.find(params[:id])
-		@categories = Category.all()
+		@categories = Category.all
 	end
 
 	def create
@@ -20,7 +20,7 @@ class BlogsController < ApplicationController
 
 		if @blog.save
 			params[:categories].each do |category|
-				@blogs_category = BlogsCategory.create({blog_id: @blog.id, category_id: category.to_i})
+				@blog_category = BlogsCategory.create({blog_id: @blog.id, category_id: category.to_i})
 			end
 			redirect_to blogs_path
 		else
@@ -30,7 +30,7 @@ class BlogsController < ApplicationController
 
 	def new
 		@blog = current_user.blogs.build
-		@categories = Category.all()
+		@categories = Category.all
 	end
 
 	def update
@@ -46,9 +46,9 @@ class BlogsController < ApplicationController
   			end
 
 				params[:categories].each do |category|
-				  @blogs_category = BlogsCategory.select("blog_id").where("blog_id = ? AND category_id IN (?)", @blog.id, category.to_i)
-				  unless @blogs_category.present?
-				    @blogs_category = BlogsCategory.create({ blog_id: @blog.id, category_id: category.to_i })
+				  @blog_category = BlogsCategory.select("blog_id").where("blog_id = ? AND category_id IN (?)", @blog.id, category.to_i)
+				  unless @blog_category.present?
+				    @blog_category = BlogsCategory.create({ blog_id: @blog.id, category_id: category.to_i })
 				  end
 				end
 			else
